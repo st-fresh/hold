@@ -1,5 +1,6 @@
 import {h, text, app} from "https://cdn.skypack.dev/hyperapp"
 
+// --- KEYDOWN SUBSCRIPTION ---
 
 const keydownSubscriber = (dispatch, options) => {
   const handler = ev => {
@@ -12,6 +13,7 @@ const keydownSubscriber = (dispatch, options) => {
 
 const onKeyDown = (key, action) => [keydownSubscriber, {key, action}]
 
+// --- FETCH JSON EFFECT ---
 
 const fetchJson = (dispatch, options) => {
   fetch(options.url)
@@ -21,6 +23,7 @@ const fetchJson = (dispatch, options) => {
 
 const jsonFetcher = (url, action) => [fetchJson, {url, action}]
 
+// --- ACTIONS ---
 
 const ToggleHighlight = (state, index) => {
   let highlight = [...state.highlight]
@@ -52,6 +55,7 @@ const SelectDown = state => {
   return [Select, state.selected + 1]
 }
 
+// --- VIEW COMPONENTS ---
 
 const person = props =>
   h("div", {
@@ -73,6 +77,7 @@ const person = props =>
     }),
   ])
 
+// --- RUN ---
 
 app({
   init: [
