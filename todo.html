@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hyperapp</title>
+    <link rel="stylesheet" href="styletodo.css"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+
+    <script type="module">
+      import {
+        h,
+        text,
+        app
+      } from "https://ebony-glen-postbox.glitch.me/todo.js";
+
+      const Add = state => ({
+        ...state,
+        todos: state.todos.concat(state.value)
+      });
+
+      const NewValue = (state, event) => ({
+        ...state,
+        value: event.target.value
+      });
+
+      app({
+        init: { todos: [], value: "" },
+        view: ({ todos, value }) =>
+          h("main", {}, [
+            h("input", { type: "text", oninput: NewValue, value }),
+            h("button", { onclick: Add }, text("Add Todo")),
+            h("ul", {}, todos.map(todo => h("li", {}, text(todo))))
+          ]),
+        node: document.getElementById("app")
+      });
+    </script>
+
+  </head>
+  <body>
+    
+    <main id="app"></main>
+  </body>
+</html>
