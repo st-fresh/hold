@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hyperapp</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="base.css" />
+    <script type="module">
+import {h, text, app} from "https://cdn.skypack.dev/hyperapp"
+
+app({
+  init: { name: "Leanne Graham", highlight: true },
+  view: state => h("main", {}, [
+    h("div", {class: "person"}, [
+      h("p", {}, text(state.name)),
+      h("input", {type: "checkbox", checked: state.highlight}),
+    ]),
+  ]),
+  node: document.getElementById("checkbox"),
+})</script>
+  </head>
+  <body>
+    <div id="checkbox"></div>
+  </body>
+</html>
