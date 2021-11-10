@@ -40,7 +40,7 @@
       const Select = (state, selected) => [
         { ...state, selected },
         jsonFetcher(
-          "https://jsonplaceholder.typicode.com/users" + state.ids[selected],
+          "https://jsonplaceholder.typicode.com/users/" + state.ids[selected],
           GotBio
         )
       ];

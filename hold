@@ -1,0 +1,47 @@
+add the lowdb with node-cron to auto-update the countdown timer
+see https://www.npmjs.com/package/node-cron for implementation
+divide your total work hours and code the node-cron API accordingly
+update index.html..
+const resetState = { count: 1000 } where resetState takes a new number-value after node-cron API persists
+when page reloads it should check db.json span for KVP at 0-index to set nextNumber accordingly..
+var nextNumber = ./.data/db.json/span[0]
+const resetState = { count: nextNumber } where nextNumber is set to whatever db.json contains
+in db.json.. 
+{
+  "span": [
+    {
+      "cron1": totalTime-1min,
+      "cron2": totalTime-2mins,
+      ...
+    },
+  ]
+}
+node-cron runs every 1min and modifies db.json removing a KVP so that if/when page reload happens nextNumber will be counting
+down from the correct amount as the new nextNumber should represent the first KVP in span object.. so if cron1 is removed then
+on page-reload nextNumber will be set to totalTime-2mins
+so node-cron should modify the span-object every 1minute by removing the KVP at the 0-index
+hyper expects following json format..
+{
+  "id": 1,
+  "name": "Leanne Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "address": {
+    "street": "Kulas Light",
+    "suite": "Apt. 556",
+    "city": "Gwenborough",
+    "zipcode": "92998-3874",
+    "geo": {
+      "lat": "-37.3159",
+      "lng": "81.1496"
+    }
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "hildegard.org",
+  "company": {
+    "name": "Romaguera-Crona",
+    "catchPhrase": "Multi-layered client-server neural-net",
+    "bs": "harness real-time e-markets"
+  }
+}
+.. where 

@@ -7,15 +7,67 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
 
     <script type="module">
-      import { h, text, app } from "https://cdn.skypack.dev/hyperapp";
+import { h, text, app } from "https://unpkg.com/hyperapp"
 
-      app({
-        view: () =>
-          h("main", {}, [
-            h("div", { class: "person" }, [h("p", {}, text("Hello world"))])
-          ]),
-        node: document.getElementById("app")
-      });
+/// Utils
+
+const pad = (n) => (n < 10 ? "0" + n : n)
+
+const humanizeTime = (t) => {
+  const hours = (t / 3600) >> 0
+  const minutes = ((t - hours * 3600) / 60) >> 0
+  const seconds = (t - hours * 3600 - minutes * 60) >> 0
+  console.log("hours", hours);
+  console.log("minutes", minutes);
+  console.log("seconds", seconds);
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
+}
+
+/// Time Fx
+
+const interval = (dispatch, props) => {
+  const id = setInterval(() => dispatch(props.action, Date.now()), props.delay)
+  return () => clearInterval(id)
+}
+
+const every = (delay, action) => [interval, { delay, action }]
+
+/// Html
+
+const main = (...children) => h("a", {}, children)
+const title = (title) => h("span", {}, text(title))
+
+
+/// Main
+
+const resetState = { count: 18000 }
+const countdown = (state) => ({ count: state.count - 1 })
+
+
+const Tick = (state) =>
+  state.count === 0
+    ? { ...state, ...resetState, ...toggle(state) }
+    : !state.paused
+    ? { ...state, ...countdown(state) }
+    : state
+
+const Reset = (state) => ({ ...state, ...resetState })
+
+
+
+app({
+  init: {
+    ...resetState,
+    paused: false,
+  },
+  view: (state) =>
+    main(
+      title(`${humanizeTime(state.count)}`)
+    ),
+  subscriptions: () => [every(1000, Tick)],
+  node: document.getElementById("timer"),
+})
+
     </script>
   </head>
   <body>
@@ -26,9 +78,7 @@
       <a class="button button-primary" href="/link">
         RMAP
       </a>
-      <a class="button" href="/link">
-        COUNTDOWN
-      </a>
+      <a id="timer" class="button" href="/link"></a>
 <p>
   <main id="app"></main>
   <ul>
